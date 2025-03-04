@@ -1,11 +1,13 @@
 import * as api from '../api/attendanceApi';
+import { showNotification } from './notificationAction';
 
 export const createAttendance = (attendanceData) => async (dispatch) => {
     try {
         const { data } = await api.createAttendance(attendanceData);
         dispatch({ type: 'CREATE_ATTENDANCE', payload: data });
+        dispatch(showNotification('Attendance submitted successfully', 'success'));
     } catch (error) {
-        console.error("Error creating attendance:", error.response ? error.response.data : error.message);
+        dispatch(showNotification('Failed to submit attendance', 'error'));
     }
 };
 

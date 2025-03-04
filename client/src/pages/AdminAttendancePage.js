@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAttendances } from '../actions/attendanceActions';
 import AttendanceTable from '../components/Attendances/AttendancesTable/AttendancesTable';
 import AppSidebar from '../components/Bars/AppSidebar';
-import './styles.css';
 import { Box, CssBaseline, Paper } from '@mui/material';
 import AppHeader from '../components/Bars/AppHeader';
 

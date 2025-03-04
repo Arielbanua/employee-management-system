@@ -12,6 +12,8 @@ const columns = [
   { field: 'position', headerName: 'Position', width: 150 },
   { field: 'birthday', headerName: 'Birthday', width: 120 },
   { field: 'address', headerName: 'Address', width: 200 },
+  { field: 'email', headerName: 'Email', width: 150 },
+  { field: 'role', headerName: 'Role', width: 150 },
   {
     field: 'actions',
     headerName: 'Actions',
@@ -35,6 +37,8 @@ const EmployeesTable = () => {
     position: employee.position,
     birthday: employee.birthday,
     address: employee.address,
+    email: employee.accounts.email,
+    role: employee.accounts.role,
   }));
 
   return (

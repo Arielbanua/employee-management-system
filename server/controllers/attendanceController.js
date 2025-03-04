@@ -1,4 +1,5 @@
 import Attendance from '../models/attendanceModel.js';
+import Employee from '../models/employeeModel.js';
 
 export const createAttendance = async (req, res) => {
     const { employeeId, name, image } = req.body;
@@ -29,7 +30,13 @@ export const createAttendance = async (req, res) => {
 
 export const getAttendances = async (req, res) => {
     try {
-        const attendances = await Attendance.findAll();
+        const attendances = await Attendance.findAll({
+            include: [{
+                model: Employee,
+                attributes: ['id', 'name']
+            }],
+            order: [['createdAt', 'DESC']]
+        });
         res.status(200).json(attendances);
     } catch (error) {
         console.error("Error fetching attendances:", error);

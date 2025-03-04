@@ -9,12 +9,14 @@ const accountReducer = (state = initialState, action) => {
         case 'LOGIN_SUCCESS':
             return { 
                 ...state, 
-                account: action.payload, 
+                account: action.payload,
                 error: null,
-                isAdmin: action.payload.role === 'admin' // Check if the user is an admin
+                isAdmin: action.payload.user.role === 'admin' 
             };
         case 'LOGIN_FAIL':
             return { ...state, error: action.payload };
+        case 'LOGOUT':
+            return initialState;
         default:
             return state;
     }

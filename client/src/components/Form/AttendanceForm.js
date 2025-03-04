@@ -8,18 +8,17 @@ import {
   InputLabel
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createAttendance } from '../../actions/attendanceActions'; 
 import { closeModal } from '../../actions/modalActions';
 
 const AttendanceForm = () => {
-  const [attendanceData, setAttendanceData] = useState({
-    name: '',
-    image: '',
-  });
-
   const dispatch = useDispatch();
-  const employeeId = 1;
+  const { account } = useSelector(state => state.account);
+  
+  const [attendanceData, setAttendanceData] = useState({
+    name: account?.user?.name || '', 
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,8 +46,14 @@ const AttendanceForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(createAttendance({ ...attendanceData, employeeId }));
-    console.log('Attendance submitted:', attendanceData);
+    
+    const attendanceWithEmployeeId = {
+      ...attendanceData,
+      employeeId: account.user.employeeId,
+      name: account.user.name 
+    };
+
+    dispatch(createAttendance(attendanceWithEmployeeId));
     dispatch(closeModal());
   };
 
@@ -68,6 +73,7 @@ const AttendanceForm = () => {
               variant="outlined"
               value={attendanceData.name}
               onChange={handleChange}
+              disabled 
               required
             />
           </Grid>

@@ -1,8 +1,26 @@
 import axios from 'axios';
 
-const url = "http://localhost:5000/employee";
+const api = axios.create({
+    baseURL: 'http://localhost:5000'
+});
 
-export const fetchEmployees = () => axios.get(url);
-export const createEmployee = (newEmployee) => axios.post(url, newEmployee);
-export const deleteEmployee = (id) => axios.delete(`${url}/${id}`);
-export const updateEmployee = (id, updatedEmployee) => axios.patch(`${url}/${id}`, updatedEmployee);
+api.interceptors.request.use((config) => {
+    const account = JSON.parse(localStorage.getItem('account'));
+    if (account?.token) {
+        config.headers.Authorization = `Bearer ${account.token}`;
+    }
+    return config;
+});
+
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            localStorage.removeItem('account');
+            window.location.href = '/login';
+        }
+        return Promise.reject(error);
+    }
+);
+
+export default api;

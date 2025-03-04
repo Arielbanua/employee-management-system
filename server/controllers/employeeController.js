@@ -7,14 +7,15 @@ export const getEmployees = async (req, res) => {
         const employees = await Employee.findAll({
             include: [{
                 model: Account,
-                required: true
+                attributes: ['email', 'role']
             }]
         });
-        res.status(200).json(employees)
+        console.log(employees)
+        res.status(200).json(employees);
     } catch (error) {
-        res.status(404).json({ message: error.message})
+        res.status(404).json({ message: error.message});
     }
-}
+};
 
 export const createEmployee = async (req, res) => {
     try {
@@ -24,14 +25,22 @@ export const createEmployee = async (req, res) => {
         const defaultPassword = `EMP`; // Format: EMPYYYYMMDD
         const hashedPassword = await bcrypt.hash(defaultPassword, 10);
 
-        const newAccount = await Account.create({
+        await Account.create({
             employeeId: newEmployee.id,
             email: email, 
             password: hashedPassword, 
             role: role
         });
 
-        res.status(201).json(newEmployee);
+        const employee = await Employee.findOne({
+            where: { id: newEmployee.id },
+            include: [{
+                model: Account,
+                attributes: ['email', 'role']
+            }]
+        });
+
+        res.status(201).json(employee);
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
@@ -49,14 +58,41 @@ export const deleteEmployee = async (req, res) => {
 
 export const updateEmployee = async (req, res) => {
     const { id } = req.params;
+    const { name, gender, position, birthday, address, email, role } = req.body;
+    
     try {
-        const updatedEmployee = await Employee.update(req.body, { where: { id } });
-        if (updatedEmployee[0] === 0) {
+        await Employee.update(
+            { name, gender, position, birthday, address }, 
+            { where: { id } }
+        );
+
+        if (email || role) {
+            await Account.update(
+                { 
+                    ...(email && { email }),
+                    ...(role && { role })
+                },
+                { 
+                    where: { employeeId: id }
+                }
+            );
+        }
+
+        const employee = await Employee.findOne({
+            where: { id },
+            include: [{
+                model: Account,
+                attributes: ['email', 'role']
+            }]
+        });
+        
+        if (!employee) {
             return res.status(404).json({ message: "Employee not found" });
         }
-        const employee = await Employee.findByPk(id);
+
         res.status(200).json(employee);
     } catch (error) {
+        console.error('Update error:', error);
         res.status(409).json({ message: error.message });
     }
 };

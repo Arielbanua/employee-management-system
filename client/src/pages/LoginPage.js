@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { loginUser } from '../actions/accountActions';
-import { useNavigate } from 'react-router-dom';
 import { 
   Box, 
   TextField, 
@@ -13,21 +13,23 @@ import {
 } from '@mui/material';
 
 const LoginPage = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
+    const { error } = useSelector((state) => state.account);
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const accountData = await dispatch(loginUser({ email, password })); 
-
-        if (accountData) {
-            if (accountData === 'admin') {
-                navigate('/admin-employee');
-            } else {
-                navigate('/user-attendance');
-            }
+        const role = await dispatch(loginUser(formData));
+        
+        if (role) {
+            const destination = location.state?.from?.pathname || 
+                        (role === 'admin' ? '/admin-employee' : '/user-attendance');
+            navigate(destination, { replace: true });
         }
     };
 
@@ -63,8 +65,8 @@ const LoginPage = () => {
                             name="email"
                             autoComplete="email"
                             autoFocus
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         />
                         <TextField
                             margin="normal"
@@ -75,8 +77,8 @@ const LoginPage = () => {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={formData.password}
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         />
                         <Button
                             type="submit"

@@ -1,5 +1,5 @@
-import axios from 'axios';
+import api from './index';
 
-const url = 'http://localhost:5000/account';
+const url = '/account';
 
-export const login = (credentials) => axios.post(`${url}/login`, credentials);
+export const login = (credentials) => api.post(`${url}/login`, credentials);

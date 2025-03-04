@@ -8,7 +8,6 @@ import AppSidebar from '../components/Bars/AppSidebar';
 import AppHeader from '../components/Bars/AppHeader';
 import Modal from '../components/Modal/Modal';
 import AttendanceForm from '../components/Form/AttendanceForm';
-import './styles.css';
 import { closeModal } from '../actions/modalActions';
 
 const UserAttendancePage = () => {

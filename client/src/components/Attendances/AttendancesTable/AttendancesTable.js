@@ -23,15 +23,20 @@ const columns = [
 const AttendanceTable = () => {
     const dispatch = useDispatch();
     const attendances = useSelector((state) => state.attendance);
+    const { account } = useSelector((state) => state.account);
 
     useEffect(() => {
         dispatch(getAttendances());
     }, [dispatch]);
 
+    const filteredAttendances = account?.user?.role === 'admin' 
+        ? attendances 
+        : attendances.filter(att => att.employeeId === account?.user?.employeeId);
+
     return (
         <Paper sx={{ height: 400, width: '100%' }}>
             <DataGrid
-                rows={attendances}
+                rows={filteredAttendances}
                 columns={columns}
                 pageSize={5}
                 rowsPerPageOptions={[5, 10, 20]}

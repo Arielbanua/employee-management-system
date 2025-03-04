@@ -30,9 +30,16 @@ const EmployeeForm = ({ employeeId }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (employeeId) {
-      
-      setEmployeeData(employee);
+    if (employeeId ) {
+      setEmployeeData({
+        name: employee.name || '',
+        email: employee.accounts.email || '',
+        gender: employee.gender || '',
+        position: employee.position || '',
+        birthday: employee.birthday || '',
+        address: employee.address || '',
+        role: employee.accounts.role || '',
+      });
     } else {
       setEmployeeData({
         name: '',
@@ -60,7 +67,6 @@ const EmployeeForm = ({ employeeId }) => {
     } else {
       dispatch(createEmployee(employeeData));
     }
-    console.log('Form submitted:', employeeData);
     dispatch(closeModal());
   };
 
@@ -149,6 +155,7 @@ const EmployeeForm = ({ employeeId }) => {
                 value={employeeData.role}
                 onChange={handleChange}
                 label="Role"
+                required
               >
                 <MenuItem value="" disabled>Select Role</MenuItem>
                 <MenuItem value="user">User</MenuItem>
