@@ -1,18 +1,25 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { Button } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { openModal } from '../../actions/modalActions';
 
 const CreateEmployeeButton = () => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(openModal(null)); // Dispatch openModal with null to indicate creating a new employee
+    dispatch(openModal(null)); 
   };
 
   return (
-    <button onClick={handleClick} style={{ color: 'blue' }}>
+    <Button 
+      variant="contained" 
+      color="primary" 
+      startIcon={<AddIcon />}
+      onClick={handleClick}
+    >
       Create Employee
-    </button>
+    </Button>
   );
 }
 

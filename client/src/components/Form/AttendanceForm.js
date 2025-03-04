@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import './styles.css';
+import { 
+  TextField, 
+  Button, 
+  Typography, 
+  Box, 
+  Grid,
+  InputLabel
+} from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useDispatch } from 'react-redux';
 import { createAttendance } from '../../actions/attendanceActions'; 
 import { closeModal } from '../../actions/modalActions';
@@ -7,13 +15,11 @@ import { closeModal } from '../../actions/modalActions';
 const AttendanceForm = () => {
   const [attendanceData, setAttendanceData] = useState({
     name: '',
-    date: '',
     image: '',
   });
 
   const dispatch = useDispatch();
   const employeeId = 1;
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,24 +53,67 @@ const AttendanceForm = () => {
   };
 
   return (
-    <div>
-      <h1>Submit Attendance</h1>
-      <form onSubmit={handleSubmit} className="attendance-form">
-        <div>
-          <label>Name:</label>
-          <input type="text" name="name" value={attendanceData.name} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Date:</label>
-          <input type="date" name="date" value={attendanceData.date} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Image:</label>
-          <input type="file" accept="image/*" onChange={handleImageUpload} required />
-        </div>
-        <button type="submit">Submit Attendance</button>
-      </form>
-    </div>
+    <Box sx={{ p: 2 }}>
+      <Typography variant="h5" component="h1" gutterBottom>
+        Submit Attendance
+      </Typography>
+      
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Name"
+              name="name"
+              variant="outlined"
+              value={attendanceData.name}
+              onChange={handleChange}
+              required
+            />
+          </Grid>
+          
+          <Grid item xs={12}>
+            <InputLabel htmlFor="image-upload">Image</InputLabel>
+            <Button
+              variant="outlined"
+              component="label"
+              startIcon={<CloudUploadIcon />}
+              sx={{ mt: 1 }}
+            >
+              Upload Image
+              <input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                hidden
+                required
+              />
+            </Button>
+            {attendanceData.image && (
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="body2" color="text.secondary">
+                  Image uploaded
+                </Typography>
+              </Box>
+            )}
+          </Grid>
+          
+          <Grid item xs={12}>
+            <Button 
+              type="submit" 
+              variant="contained" 
+              color="primary" 
+              fullWidth
+              size="large"
+              sx={{ mt: 2 }}
+            >
+              Submit Attendance
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
   );
 };
 

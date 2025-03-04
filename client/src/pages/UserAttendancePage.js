@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Box, CssBaseline, Paper } from '@mui/material';
 import { getAttendances } from '../actions/attendanceActions';
 import AttendanceTable from '../components/Attendances/AttendancesTable/AttendancesTable';
-import CreateAttendanceButton from '../components/CreateAttendanceButton/CreateAttendanceButton';
-import AppSidebar from '../components/AppSidebar/AppSidebar';
+import CreateAttendanceButton from '../components/Button/CreateAttendanceButton';
+import AppSidebar from '../components/Bars/AppSidebar';
+import AppHeader from '../components/Bars/AppHeader';
 import Modal from '../components/Modal/Modal';
 import AttendanceForm from '../components/Form/AttendanceForm';
 import './styles.css';
@@ -22,27 +24,35 @@ const UserAttendancePage = () => {
     };
 
     return (
-        <>
-            <AppSidebar />
-            <div className="app-container">
-                <div className="app-bar">
-                    <h2 className="app-title">Employee Attendance System</h2>
-                    <CreateAttendanceButton />
-                </div>
-                <div className="grow">
-                    <div className="grid-container">
-                        <div className="grid-item attendances">
-                            <AttendanceTable />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {isOpen && (
-                <Modal closeModal={closeModalHandler}>
-                    <AttendanceForm employeeId={employeeId} />
-                </Modal>
-            )}
-        </>
+        <Box sx={{ display: 'flex', height: '100vh' }}>
+            <CssBaseline />
+            
+            <AppHeader />
+            
+            <Box component="nav" sx={{ width: 240, flexShrink: 0 }}>
+                <AppSidebar />
+            </Box>
+            
+            <Box component="main" sx={{ 
+                flexGrow: 1, 
+                p: 3, 
+                width: { sm: `calc(100% - 240px)` },
+                mt: 8
+            }}>
+                
+                
+                <Paper elevation={3} sx={{ p: 2 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
+                        <CreateAttendanceButton />
+                    </Box>
+                    <AttendanceTable />
+                </Paper>
+            </Box>
+            
+            <Modal isOpen={isOpen} closeModal={closeModalHandler}>
+                <AttendanceForm employeeId={employeeId} closeModal={closeModalHandler} />
+            </Modal>
+        </Box>
     );
 }
 

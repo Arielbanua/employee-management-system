@@ -8,7 +8,8 @@ const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'employeeId', headerName: 'Employee ID', width: 130 },
     { field: 'name', headerName: 'Name', width: 130 },
-    { field: 'date', headerName: 'Date', width: 150 },
+    { field: 'date', headerName: 'Date', width: 180},
+    { field: 'time', headerName: 'Time', width: 180},
     {
         field: 'image',
         headerName: 'Image',

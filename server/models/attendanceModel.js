@@ -19,6 +19,10 @@ const Attendance = db.define('attendances', {
         type: DataTypes.DATEONLY,
         allowNull: false,
     },
+    time: {
+        type: DataTypes.TIME,
+        allowNull: false,
+    },
     image: {
         type: DataTypes.TEXT, 
         allowNull: true,

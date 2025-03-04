@@ -1,15 +1,25 @@
 import Attendance from '../models/attendanceModel.js';
 
 export const createAttendance = async (req, res) => {
-    const { employeeId, name, date, image } = req.body;
+    const { employeeId, name, image } = req.body;
 
     try {
+        const now = new Date();
+        
+        // Format date as YYYY-MM-DD
+        const date = now.toISOString().split('T')[0];
+        
+        // Format time as HH:MM:SS
+        const time = now.toTimeString().split(' ')[0];
+        
         const newAttendance = await Attendance.create({
             employeeId,
             name,
             date,
+            time,
             image,
         });
+        
         res.status(201).json(newAttendance);
     } catch (error) {
         console.error("Error creating attendance:", error);

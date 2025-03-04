@@ -1,5 +1,5 @@
 const attendanceReducer = (attendances = [], action) => {
-    switch (action.type) {//
+    switch (action.type) {
         case 'CREATE_ATTENDANCE':
             return [...attendances, action.payload];  
         case 'FETCH_ATTENDANCES':

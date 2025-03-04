@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { openModal } from '../../actions/modalActions';  
+import { Button } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { openModal } from '../../actions/modalActions';
 
 const CreateAttendanceButton = () => {
   const dispatch = useDispatch();
@@ -10,9 +12,14 @@ const CreateAttendanceButton = () => {
   };
 
   return (
-    <button onClick={handleClick} style={{ color: 'blue' }}>
+    <Button 
+      variant="contained" 
+      color="primary" 
+      startIcon={<AddIcon />}
+      onClick={handleClick}
+    >
       Create Attendance
-    </button>
+    </Button>
   );
 }
 

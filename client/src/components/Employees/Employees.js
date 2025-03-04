@@ -1,12 +1,12 @@
 import React from 'react'
-import Employee from './EmployeesTable/EmployeesTable'
-import './styles.css';
+import Employee from './EmployeesContent/EmployeesTable'
 import { useSelector } from 'react-redux';
+import EmployeeToolbar from './EmployeesContent/EmployeeToolbar';
 
 const Employees = () => {
     return (
         <>
-            <h1>Employees</h1>
+            <EmployeeToolbar/>
             <Employee/>
         </>
     )

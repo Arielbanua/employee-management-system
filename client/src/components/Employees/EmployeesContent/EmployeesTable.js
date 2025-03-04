@@ -2,9 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
-import DeleteButton from '../../DeleteButton/DeleteButton';
-import UpdateButton from '../../UpdateButton/UpdateButton';
-import './styles.css';
+import DeleteButton from '../../Button/DeleteButton';
+import UpdateButton from '../../Button/UpdateButton';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
