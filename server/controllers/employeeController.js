@@ -22,7 +22,8 @@ export const createEmployee = async (req, res) => {
         const { name, gender, position, birthday, address, email, role } = req.body; 
         const newEmployee = await Employee.create({ name, gender, position, birthday, address });
 
-        const defaultPassword = `EMP`; // Format: EMPYYYYMMDD
+        const defaultPassword = `EMP-${birthday}`; // Format: EMP-YYYY-MM-DD
+        console.log(defaultPassword)
         const hashedPassword = await bcrypt.hash(defaultPassword, 10);
 
         await Account.create({

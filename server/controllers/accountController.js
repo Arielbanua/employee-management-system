@@ -1,11 +1,14 @@
+import dotenv from 'dotenv';
 import Account from '../models/accountModel.js';
 import Employee from '../models/employeeModel.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+dotenv.config();
+
+
 export const login = async (req, res) => {
     const { email, password } = req.body;
-    console.log('Request body:', req.body);
 
     try {
         const account = await Account.findOne({ 
@@ -31,8 +34,8 @@ export const login = async (req, res) => {
                 employeeId: account.employeeId,
                 role: account.role 
             }, 
-            '12345',
-            { expiresIn: '1h' }
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN }
         );
 
         res.status(200).json({
